@@ -34,7 +34,7 @@
 <div>
     <% items.forEach(function(image) { %>
     <div>
-        <div>
+        <div class="images">
             <img src="data:image/<%=image.img.contentType%>;base64,
                      <%=image.img.data.toString('base64')%>">
             <div>
@@ -47,3 +47,9 @@
 </body>
 
 </html>
+
+<style>
+    .images img{
+        width: 20vw;
+    }
+</style>
