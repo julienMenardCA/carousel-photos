@@ -25,19 +25,19 @@
 </div>
 
 <hr>
-<% if (item !== null) {%>
+<% if (item !== null) { %>
 <h1>Uploaded Image</h1>
 <div>
     <div>
         <div>
-            <img src="data:image/<%=item.img.contentType%>;base64,
-                     <%=item.img.data.toString('base64')%>" alt="">
+            <img src="data:image/<%= item.img.contentType %>;base64,
+                     <%= item.img.data.toString('base64') %>" alt="">
             <div>
                 <h5><%= item.name %></h5>
             </div>
         </div>
     </div>
-    <%}%>
+    <% } %>
 </div>
 </body>
 
