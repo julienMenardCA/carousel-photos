@@ -55,27 +55,26 @@ app.get('/upload', (req, res) => {
             res.status(500).send('An error occurred', err);
         }
         else {
-            res.render('imageUploadForm', { items: item });
+            res.render('imageUploadForm', { item: item });
         }
     });
 });
 
 app.post('/upload', upload.single('image'), (req, res, next) => {
     const obj = {
-        name: req.body.name,
+        name: req.file.filename,
         img: {
             data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
             contentType: 'image/png'
         }
     }
     imgModel.create(obj, (err, item) => {
-        console.log(obj)
         if (err) {
             console.log(err);
         }
         else {
             res.redirect(url.format({
-                pathname : '/',
+                pathname : '/upload/',
                 query : {
                     "name" : obj.name
                 }
