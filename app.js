@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
+const url = require('url')
 
 const fs = require('fs');
 const path = require('path');
@@ -16,6 +17,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.set("view engine", "ejs");
+
+app.use(express.static(__dirname + '/public'));
 
 const multer = require('multer');
 
@@ -46,7 +49,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/upload', (req, res) => {
-    imgModel.find({}, (err, item) => {
+    imgModel.findOne({name : req.query.name}, (err, item) => {
         if (err) {
             console.log(err);
             res.status(500).send('An error occurred', err);
@@ -66,11 +69,17 @@ app.post('/upload', upload.single('image'), (req, res, next) => {
         }
     }
     imgModel.create(obj, (err, item) => {
+        console.log(obj)
         if (err) {
             console.log(err);
         }
         else {
-            res.redirect('/upload');
+            res.redirect(url.format({
+                pathname : '/',
+                query : {
+                    "name" : obj.name
+                }
+            }));
         }
     });
 });
