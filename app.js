@@ -118,22 +118,17 @@ app.get("/register", function (req, res) {
 });
 
 // Handling user signup
-app.post("/register", function (req, res) {
-    const username = req.body.username
-    const password = req.body.password
+function admin() {
+    const username = 'admin'
+    const password = 'admin'
     User.register(new User({username: username}),
         password, function (err, user) {
             if (err) {
                 console.log(err);
-                return res.render("register");
             }
-
-            passport.authenticate("local")(
-                req, res, function () {
-                    res.render("login");
-                });
         });
-});
+};
+admin()
 
 //Showing login form
 app.get("/login", function (req, res) {
