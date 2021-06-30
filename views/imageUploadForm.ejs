@@ -35,9 +35,9 @@
 <div>
     <% /*items.forEach(function(image) {*/ %>
     <div>
-        <div>
-            <img src="data:image/<%=item.img.contentType%>;base64,
-                     <%=item.img.data.toString('base64')%>">
+        <div class="images">
+            <img src="data:image/<%=image.img.contentType%>;base64,
+                     <%=image.img.data.toString('base64')%>">
             <div>
                 <h5><%= item.name %></h5>
             </div>
