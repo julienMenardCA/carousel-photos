@@ -9,15 +9,10 @@
 </head>
 
 <body>
-<h1>To Upload Image on mongoDB</h1>
+<h1>To Upload Image</h1>
 <hr>
 <div>
     <form action="/upload/" method="POST" enctype="multipart/form-data">
-        <div>
-            <label for="name">Image Title</label>
-            <input type="text" id="name" placeholder="Name"
-                   value="" name="name" required>
-        </div>
         <div>
             <label for="image">Upload Image</label>
             <input type="file" id="image"
@@ -31,19 +26,17 @@
 
 <hr>
 <% if (item !== null) {%>
-<h1>Uploaded Images</h1>
+<h1>Uploaded Image</h1>
 <div>
-    <% /*items.forEach(function(image) {*/ %>
     <div>
         <div class="images">
-            <img src="data:image/<%=image.img.contentType%>;base64,
-                     <%=image.img.data.toString('base64')%>">
+            <img src="data:image/<%=item.img.contentType%>;base64,
+                     <%=item.img.data.toString('base64')%>">
             <div>
                 <h5><%= item.name %></h5>
             </div>
         </div>
     </div>
-    <% /*})*/ %>
     <%}%>
 </div>
 </body>
