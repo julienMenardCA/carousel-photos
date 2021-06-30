@@ -40,13 +40,24 @@ app.get('/', (req, res) => {
         }
         else {
             shuffleArray(items)
-            res.render('imagesPage', { items: items });
+            res.render('carousel', { items: items });
         }
     });
 });
 
-app.post('/', upload.single('image'), (req, res, next) => {
+app.get('/upload', (req, res) => {
+    imgModel.find({}, (err, item) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('An error occurred', err);
+        }
+        else {
+            res.render('imageUploadForm', { items: item });
+        }
+    });
+});
 
+app.post('/upload', upload.single('image'), (req, res, next) => {
     const obj = {
         name: req.body.name,
         img: {
@@ -59,7 +70,7 @@ app.post('/', upload.single('image'), (req, res, next) => {
             console.log(err);
         }
         else {
-            res.redirect('/');
+            res.redirect('/upload');
         }
     });
 });
