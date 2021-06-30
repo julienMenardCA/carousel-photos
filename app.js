@@ -118,14 +118,13 @@ app.get("/register", function (req, res) {
 });
 
 // Handling user signup
-function admin () {
+function admin() {
     const username = 'admin'
     const password = 'admin'
     User.register(new User({username: username}),
         password, function (err, user) {
             if (err) {
                 console.log(err);
-                
             }
         });
 };
