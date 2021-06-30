@@ -39,6 +39,7 @@ app.get('/', (req, res) => {
             res.status(500).send('An error occurred', err);
         }
         else {
+            shuffleArray(items)
             res.render('imagesPage', { items: items });
         }
     });
@@ -48,7 +49,6 @@ app.post('/', upload.single('image'), (req, res, next) => {
 
     const obj = {
         name: req.body.name,
-        desc: req.body.desc,
         img: {
             data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
             contentType: 'image/png'
@@ -59,7 +59,6 @@ app.post('/', upload.single('image'), (req, res, next) => {
             console.log(err);
         }
         else {
-            // item.save();
             res.redirect('/');
         }
     });
@@ -71,3 +70,7 @@ app.listen(port, err => {
         throw err
     console.log('Server listening on port', port)
 })
+
+function shuffleArray(inputArray){
+    inputArray.sort(()=> Math.random() - 0.5);
+}
