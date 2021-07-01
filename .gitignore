@@ -248,3 +248,4 @@ fabric.properties
 .idea/
 
 uploads/*
+package-lock.json
