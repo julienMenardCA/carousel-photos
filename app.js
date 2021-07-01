@@ -178,4 +178,5 @@ async function admin() {
     }
 }
 
+// Calling admin function at start of server
 admin()
