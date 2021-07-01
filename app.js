@@ -150,7 +150,12 @@ app.get("/logout", function (req, res) {
     res.redirect("/");
 });
 
-// Function that if logged in, make it so that the server may proceed with what's next
+// Redirect to root if route not recognized in url
+app.get('*', function(req, res) {
+    res.redirect('/');
+});
+
+// Function that if logged in make it so that the server may proceed with what's next
 // but if not logged in, redirects to login page
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) return next();
