@@ -10,34 +10,40 @@ const express = require("express"),
     path = require('path'),
     url = require('url'),
     multer = require('multer');
+    const app = express();
 
 // Loading new env variables
 require('dotenv/config')
 
-// todo
+
+// Connection to database with env variables
+
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
-// Connection to database with env variables
 mongoose.connect(process.env.MONGO_URL,
     {useNewUrlParser: true, useUnifiedTopology: true}, err => {
         console.log('connected')
     });
 
 
-const app = express();
 
 // Using "ejs" as view engine
 app.set("view engine", "ejs");
 
 // Setting up folder for static files (such as css files)
 app.use(express.static(path.join(__dirname, '/public')));
-// todo
+
+
+
+// Parsing JSON object 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json())
 
-// todo
+
+
+// Middleware for cooking session
 app.use(require("express-session")({
     secret: "Rusty is a dog",
     resave: false,
@@ -56,11 +62,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage});
 
-// todo
+
+
+// middleware for authentication, Initialization of passport !
 app.use(passport.initialize());
 app.use(passport.session());
 
-// todo
+// Creation d'une session pour l'utilisateur
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -71,9 +79,9 @@ app.listen(port, function () {
     console.log("Server Has Started!");
 });
 
-//=====================
-// ROUTES
-//=====================
+//=======//
+// ROUTES//
+//=======//
 
 // Showing home page
 app.get('/', (req, res) => {
@@ -122,6 +130,7 @@ app.post('/upload', upload.single('image'), (req, res, next) => {
         }
     });
 });
+
 
 //Showing login form
 app.get("/login", function (req, res) {
