@@ -1,7 +1,7 @@
 <%- include("header") %>
 
 <body>
-    <div id="carouselExampleControls" class="carousel slide " data-ride="carousel">
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <% items.forEach(function(image) { %>
                 <%
@@ -9,8 +9,8 @@
                 if(items.indexOf(image) == 0){
                     actif = " active"
                 } %>
-                <div class="carousel-item<%= actif %> images">
-                    <img class="d-block w-100" src="data:image/<%= image.img.contentType %>;base64,
+                <div class="carousel-item<%= actif %> images image-wrap">
+                    <img class="d-block" src="data:image/<%= image.img.contentType %>;base64,
                         <%= image.img.data.toString('base64') %>" alt="<%= image.name %>">
                 </div>
             <% }) %>
