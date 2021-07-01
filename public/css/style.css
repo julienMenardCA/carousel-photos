@@ -25,15 +25,15 @@ body {
     z-index: 30;
 }
 
-.row{
+.row {
     padding: 0 5vw;
 }
 
-.navbar{
+.navbar {
     height: 10vh;
 }
 
-.formulaire{
+.formulaire {
     width: auto;
     margin: 5vh auto;
     text-align: center;
@@ -47,7 +47,7 @@ body {
     cursor: pointer;
 }
 
-.addedImage{
+.addedImage {
     margin-top: 25vh;
     width: 50%;
     display: flex;

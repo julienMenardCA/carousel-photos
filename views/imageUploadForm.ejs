@@ -1,33 +1,33 @@
 <%- include("header") %>
-<body>   
-    <div class="row">
-        <div class="formulaire">
-            <h1>Ajoutez des photos<br>
-                à notre carousel !</h1>
-            <form action="/upload/" method="POST" enctype="multipart/form-data">
-                <div>
-                    <input type="file" name="image" value="" required>
-                </div>
-                <div>
-                    <button id="chooseImage" type="submit">Ajouter</button>
-                </div>
-            </form>
-        </div>
-
-        <% if (item !== null) { %>
-        <div class="addedImage">
-            <h3>Image ajoutée !</h3>
+<body>
+<div class="row">
+    <div class="formulaire">
+        <h1>Ajoutez des photos<br>
+            à notre carousel !</h1>
+        <form action="/upload/" method="POST" enctype="multipart/form-data">
             <div>
-                <div>
-                    <div class="uploaded">
-                        <img src="data:image/<%= item.img.contentType %>;base64,
-                                <%= item.img.data.toString('base64') %>" alt="<%= item.name %>">
-                    </div>
-                </div>
-                <% } %>
+                <input type="file" name="image" value="" required>
             </div>
+            <div>
+                <button id="chooseImage" type="submit">Ajouter</button>
+            </div>
+        </form>
+    </div>
+
+    <% if (item !== null) { %>
+    <div class="addedImage">
+        <h3>Image ajoutée !</h3>
+        <div>
+            <div>
+                <div class="uploaded">
+                    <img src="data:image/<%= item.img.contentType %>;base64,
+                                <%= item.img.data.toString('base64') %>" alt="<%= item.name %>">
+                </div>
+            </div>
+            <% } %>
         </div>
     </div>
+</div>
 </body>
 
 </html>
