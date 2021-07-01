@@ -70,7 +70,7 @@ app.get('/', (req, res) => {
             res.status(500).send('An error occurred', err);
         } else {
             shuffleArray(items)
-            res.render('carousel', {items: items, isConnected: req.isAuthenticated()});
+            res.render('carousel', {items: items, title: 'Accueil', isConnected: req.isAuthenticated()});
         }
     });
 });
@@ -83,7 +83,7 @@ app.get('/upload', isLoggedIn, (req, res) => {
             console.log(err);
             res.status(500).send('An error occurred', err);
         } else {
-            res.render('imageUploadForm', {item: item, isConnected: req.isAuthenticated()});
+            res.render('imageUploadForm', {item: item, title: "Ajout d'image", isConnected: req.isAuthenticated()});
         }
     });
 });
@@ -136,7 +136,7 @@ async function admin() {
 
 //Showing login form
 app.get("/login", function (req, res) {
-    res.render("login");
+    res.render("login", {title: "Connexion"});
 });
 
 //Handling user login
