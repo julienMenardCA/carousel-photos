@@ -113,16 +113,16 @@ app.post('/upload', upload.single('image'), (req, res, next) => {
 
 
 // Handling user signup
-async function admin (){
-    
-   const  username = 'admin'
-   const  password = 'admin'
-    
-   
-    if (await User.exists({username:username})){
+async function admin() {
+
+    const username = 'admin'
+    const password = 'admin'
+
+
+    if (await User.exists({username: username})) {
         console.log("User : admin, already exist in database")
 
-    }else{
+    } else {
         console.log("We are creating user: admin")
         User.register(new User({username: username}),
             password, function (err, user) {
@@ -133,9 +133,6 @@ async function admin (){
             });
     }
 }
-
-
-admin()
 
 //Showing login form
 app.get("/login", function (req, res) {
@@ -168,3 +165,5 @@ app.listen(port, function () {
 function shuffleArray(inputArray) {
     inputArray.sort(() => Math.random() - 0.5);
 }
+
+admin()
