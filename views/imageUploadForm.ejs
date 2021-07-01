@@ -1,28 +1,25 @@
 <%- include("header") %>
 
-<div>
+<div class="formulaire">
+    <h1>Ajoutez des photos<br>
+        à notre carousel !</h1>
     <form action="/upload/" method="POST" enctype="multipart/form-data">
         <div>
-            <label for="image">Upload Image</label>
-            <input type="file" id="image"
-                   name="image" value="" required>
+            <input type="file" id="image" name="image" value="" required>
         </div>
         <div>
-            <button type="submit">Submit</button>
+            <button type="submit">Ajouter</button>
         </div>
     </form>
 </div>
 
 <% if (item !== null) { %>
-<h1>Uploaded Image</h1>
+<h3>Image ajoutée !</h3>
 <div>
     <div>
-        <div>
+        <div class="uploaded">
             <img src="data:image/<%= item.img.contentType %>;base64,
                      <%= item.img.data.toString('base64') %>" alt="<%= item.name %>">
-            <div>
-                <h5><%= item.name %></h5>
-            </div>
         </div>
     </div>
     <% } %>
