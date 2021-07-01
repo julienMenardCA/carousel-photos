@@ -70,7 +70,7 @@ app.get('/', (req, res) => {
             res.status(500).send('An error occurred', err);
         } else {
             shuffleArray(items)
-            res.render('carousel', {items: items});
+            res.render('carousel', {items: items, isConnected: req.isAuthenticated()});
         }
     });
 });
@@ -83,7 +83,7 @@ app.get('/upload', isLoggedIn, (req, res) => {
             console.log(err);
             res.status(500).send('An error occurred', err);
         } else {
-            res.render('imageUploadForm', {item: item});
+            res.render('imageUploadForm', {item: item, isConnected: req.isAuthenticated()});
         }
     });
 });
@@ -102,7 +102,7 @@ app.post('/upload', upload.single('image'), (req, res, next) => {
             console.log(err);
         } else {
             res.redirect(url.format({
-                pathname: '/upload/',
+                pathname: '/upload',
                 query: {
                     "name": obj.name
                 }
