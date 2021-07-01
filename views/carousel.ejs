@@ -1,36 +1,38 @@
 <%- include("header") %>
 
 <body>
-    <% if (items.length === 0) {%>
+<% if (items.length === 0) { %>
     <div>
         <h1>Aucune image n'a été<br>ajoutée pour le moment</h1>
     </div>
-    <% } %>
-    <% if (items.length > 0) { %>
+<% } %>
+<% if (items.length > 0) { %>
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <% items.forEach(function(image) { %>
                 <%
-                let actif = "" 
-                if(items.indexOf(image) == 0){
-                    actif = " active"
-                } %>
+                    let actif = ""
+                    if (items.indexOf(image) == 0) {
+                        actif = " active"
+                    } %>
                 <div class="carousel-item<%= actif %> images image-wrap">
                     <img class="d-block" src="data:image/<%= image.img.contentType %>;base64,
                         <%= image.img.data.toString('base64') %>" alt="<%= image.name %>">
                 </div>
             <% }) %>
-            <a class="carousel-control-prev" href="#carouselExampleControls" fill="#000000" role="button" data-slide="prev">
+            <a class="carousel-control-prev" href="#carouselExampleControls" fill="#000000" role="button"
+               data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
             </a>
-            <a class="carousel-control-next" href="#carouselExampleControls" fill="#000000" role="button" data-slide="next">
+            <a class="carousel-control-next" href="#carouselExampleControls" fill="#000000" role="button"
+               data-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
             </a>
         </div>
     </div>
-    <% } %>
+<% } %>
 </body>
 
 </html>
