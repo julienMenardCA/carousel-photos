@@ -1,19 +1,25 @@
+// Creating all constants for all dependencies necessary
 const express = require("express"),
     mongoose = require("mongoose"),
     passport = require("passport"),
     bodyParser = require("body-parser"),
     LocalStrategy = require("passport-local"),
+    imgModel = require('./models/image'),
     User = require("./models/user"),
     fs = require('fs'),
     path = require('path'),
-    url = require('url')
+    url = require('url'),
+    multer = require('multer');
 
+// Loading new env variables
 require('dotenv/config')
 
+// todo
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
+// Connection to database with env variables
 mongoose.connect(process.env.MONGO_URL,
     {useNewUrlParser: true, useUnifiedTopology: true}, err => {
         console.log('connected')
@@ -21,21 +27,24 @@ mongoose.connect(process.env.MONGO_URL,
 
 
 const app = express();
+
+// Using "ejs" as view engine
 app.set("view engine", "ejs");
 
+// Setting up folder for static files (such as css files)
 app.use(express.static(path.join(__dirname, '/public')));
+// todo
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json())
 
+// todo
 app.use(require("express-session")({
     secret: "Rusty is a dog",
     resave: false,
     saveUninitialized: false
 }));
 
-
-const multer = require('multer');
-
+// Setting storage of uploaded files
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads')
@@ -47,15 +56,20 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage});
 
-const imgModel = require('./models/image');
-
-
+// todo
 app.use(passport.initialize());
 app.use(passport.session());
 
+// todo
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+// Starting server
+const port = process.env.PORT || 3000;
+app.listen(port, function () {
+    console.log("Server Has Started!");
+});
 
 //=====================
 // ROUTES
@@ -74,8 +88,7 @@ app.get('/', (req, res) => {
     });
 });
 
-
-// Showing secret page
+// Showing upload page only when logged in
 app.get('/upload', isLoggedIn, (req, res) => {
     imgModel.findOne({name: req.query.name}, (err, item) => {
         if (err) {
@@ -87,7 +100,7 @@ app.get('/upload', isLoggedIn, (req, res) => {
     });
 });
 
-
+// Called when image is uploaded
 app.post('/upload', upload.single('image'), (req, res, next) => {
     const obj = {
         name: req.file.filename,
@@ -110,13 +123,40 @@ app.post('/upload', upload.single('image'), (req, res, next) => {
     });
 });
 
+//Showing login form
+app.get("/login", function (req, res) {
+    res.render("login", {title: "Connexion", isConnected: req.isAuthenticated()});
+});
 
-// Handling user signup
+//Handling user login
+app.post("/login", passport.authenticate("local", {
+    successRedirect: "/upload",
+    failureRedirect: "/login"
+    }), function (req, res) {
+});
+
+//Handling user logout
+app.get("/logout", function (req, res) {
+    req.logout();
+    res.redirect("/");
+});
+
+// Function that if logged in make it so that the server may proceed with what's next
+// but if not logged in, redirects to login page
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) return next();
+    res.redirect("/login");
+}
+
+// Randomize array of pictures
+function shuffleArray(inputArray) {
+    inputArray.sort(() => Math.random() - 0.5);
+}
+
+// Function to create an admin in database if it's not already present
 async function admin() {
-
     const username = 'admin'
     const password = 'admin'
-
 
     if (await User.exists({username: username})) {
         console.log("User : admin, already exist in database")
@@ -131,38 +171,6 @@ async function admin() {
                 }
             });
     }
-}
-
-//Showing login form
-app.get("/login", function (req, res) {
-    res.render("login", {title: "Connexion", isConnected: req.isAuthenticated()});
-});
-
-//Handling user login
-app.post("/login", passport.authenticate("local", {
-    successRedirect: "/upload",
-    failureRedirect: "/login"
-}), function (req, res) {
-});
-
-//Handling user logout
-app.get("/logout", function (req, res) {
-    req.logout();
-    res.redirect("/");
-});
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) return next();
-    res.redirect("/login");
-}
-
-const port = process.env.PORT || 3000;
-app.listen(port, function () {
-    console.log("Server Has Started!");
-});
-
-function shuffleArray(inputArray) {
-    inputArray.sort(() => Math.random() - 0.5);
 }
 
 admin()
