@@ -135,7 +135,7 @@ async function admin() {
 
 //Showing login form
 app.get("/login", function (req, res) {
-    res.render("login", {title: "Connexion"});
+    res.render("login", {title: "Connexion", isConnected: req.isAuthenticated()});
 });
 
 //Handling user login
