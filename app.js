@@ -9,8 +9,8 @@ const express = require("express"),
     fs = require('fs'),
     path = require('path'),
     url = require('url'),
-    multer = require('multer');
-    const app = express();
+    multer = require('multer'),
+    app = express();
 
 // Loading new env variables
 require('dotenv/config')
@@ -28,7 +28,6 @@ mongoose.connect(process.env.MONGO_URL,
     });
 
 
-
 // Using "ejs" as view engine
 app.set("view engine", "ejs");
 
@@ -36,11 +35,9 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, '/public')));
 
 
-
-// Parsing JSON object 
+// Parsing JSON object
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json())
-
 
 
 // Middleware for cooking session
@@ -61,7 +58,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({storage: storage});
-
 
 
 // middleware for authentication, Initialization of passport !
@@ -141,7 +137,7 @@ app.get("/login", function (req, res) {
 app.post("/login", passport.authenticate("local", {
     successRedirect: "/upload",
     failureRedirect: "/login"
-    }), function (req, res) {
+}), function (req, res) {
 });
 
 //Handling user logout
@@ -151,7 +147,7 @@ app.get("/logout", function (req, res) {
 });
 
 // Redirect to root if route not recognized in url
-app.get('*', function(req, res) {
+app.get('*', function (req, res) {
     res.redirect('/');
 });
 
