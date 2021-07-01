@@ -112,22 +112,29 @@ app.post('/upload', upload.single('image'), (req, res, next) => {
 });
 
 
-// Showing register form
-app.get("/register", function (req, res) {
-    res.render("register");
-});
-
 // Handling user signup
-function admin() {
-    const username = 'admin'
-    const password = 'admin'
-    User.register(new User({username: username}),
-        password, function (err, user) {
-            if (err) {
-                console.log(err);
-            }
-        });
-};
+async function admin (){
+    
+   const  username = 'admin'
+   const  password = 'admin'
+    
+   
+    if (await User.exists({username:username})){
+        console.log("User : admin, already exist in database")
+
+    }else{
+        console.log("We are creating user: admin")
+        User.register(new User({username: username}),
+            password, function (err, user) {
+                if (err) {
+                    console.log(err);
+
+                }
+            });
+    }
+}
+
+
 admin()
 
 //Showing login form
